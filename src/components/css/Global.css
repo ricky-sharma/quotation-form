@@ -1,0 +1,21 @@
+.buttonCss {
+    font-size: 0.9rem;
+    letter-spacing: 0.00938em;
+    line-height: 1.4375em;
+}
+
+.buttonfont {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+@media (max-width: 600px) {
+    .buttonCss {
+        transform: translate(0, 0) scale(0.8) !important;
+        line-height: 1 !important;
+    }
+}

@@ -1,0 +1,38 @@
+.eraseIcon {
+    color: rgba(0, 0, 0, 0.6);
+    position: relative;
+    top: -20px;
+    left: -2px;
+    cursor: pointer;
+}
+
+.signatureLabel {
+    color: rgba(0, 0, 0, 0.6);
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0.00938em;
+    line-height: 1.4375em;
+    position: relative;
+    top: 24px;
+    left: 14px;
+    border: 0px;
+    padding: 0;
+    margin: 0;
+    z-index: 0;
+}
+
+.signatureCanvas {
+    padding-top: 20px;
+    padding-right: 20px;
+    box-shadow: 0 0 0 1px;
+    border: 1px #242424 solid;
+}
+
+
+@media (max-width: 600px) {
+    .signatureLabel {
+        transform: translate(-28px, -4px) scale(0.8) !important;
+        line-height: 1 !important;
+    }
+}
