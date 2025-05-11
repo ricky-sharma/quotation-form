@@ -1,26 +1,41 @@
 ---
 
-# Quotation Form
+# 🧾 Quotation Form
 
-A modern, responsive web application for generating professional quotations. Built with React and Vite, this application offers a seamless user experience for creating and managing quotes.
+[![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![Build Status](https://github.com/ricky-sharma/quotation-form/actions/workflows/ci.yml/badge.svg)](https://github.com/ricky-sharma/quotation-form/actions)
+[![Vite](https://img.shields.io/badge/Built%20with-Vite-646CFF.svg?logo=vite)](https://vitejs.dev/)
+[![TailwindCSS](https://img.shields.io/badge/Styled%20with-Tailwind%20CSS-06B6D4.svg?logo=tailwindcss)](https://tailwindcss.com/)
+
+A modern web application for generating professional quotation forms using **React**, **Vite**, and **Tailwind CSS**. Fast, responsive, and linted for clean development.
+
+---
+
+## 📸 Preview
+
+> Coming Soon*
 
 ---
 
 ## 🚀 Features
 
-* **Instant Development**: Utilizes Vite for rapid hot module replacement (HMR) and efficient bundling.
-* **React Integration**: Seamless setup for React development with modern tooling.
-* **ESLint Configuration**: Pre-configured ESLint setup to maintain code quality and consistency.
-* **Modern UI**: Provides a clean and intuitive interface for users.
-* **Responsive Design**: Ensures the application is usable on various devices.
+* ✅ Professional quote generation
+* 📱 Fully responsive design
+* ⚡ Blazing-fast development with Vite
+* 🎨 Styled using Tailwind CSS
+* 🧹 Code linting via ESLint
 
 ---
 
-## 🛠️ Technologies Used
+## 🧰 Tech Stack
 
-* **React**: A JavaScript library for building user interfaces.
-* **Vite**: A next-generation, fast build tool.
-* **ESLint**: A tool for identifying and fixing problems in JavaScript code.
+| Tech         | Role                   |
+| ------------ | ---------------------- |
+| React        | UI rendering           |
+| Vite         | Development/build tool |
+| Tailwind CSS | Styling                |
+| ESLint       | Linting & code quality |
+| JavaScript   | App logic              |
 
 ---
 
@@ -87,6 +102,29 @@ This command runs ESLint to identify and fix problems in your JavaScript code.
 
 ---
 
+## 🖌️ Tailwind CSS Styling
+
+Use utility classes directly in your JSX to maintain styling consistency.
+
+---
+
+## 📁 Project Structure
+
+```
+quotation-form/
+├── public/             
+├── src/
+│   ├── components/     
+│   ├── App.jsx         
+│   ├── main.jsx        
+│   └── index.css       
+├── .eslintrc.cjs       
+├── vite.config.js      
+└── package.json
+```
+
+---
+
 ## 📄 License
 
 This project is licensed under the BSD-3-Clause License.
@@ -106,3 +144,5 @@ Currently, two official plugins are available:
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+---
