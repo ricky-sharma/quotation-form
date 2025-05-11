@@ -6,6 +6,8 @@
 [![Build Status](https://github.com/ricky-sharma/quotation-form/actions/workflows/ci.yml/badge.svg)](https://github.com/ricky-sharma/quotation-form/actions)
 [![Vite](https://img.shields.io/badge/Built%20with-Vite-646CFF.svg?logo=vite)](https://vitejs.dev/)
 [![TailwindCSS](https://img.shields.io/badge/Styled%20with-Tailwind%20CSS-06B6D4.svg?logo=tailwindcss)](https://tailwindcss.com/)
+[![Forks](https://img.shields.io/github/forks/ricky-sharma/quotation-form?style=social)](https://github.com/ricky-sharma/quotation-form/network/members)
+[![GitHub All Releases](https://img.shields.io/github/downloads/ricky-sharma/quotation-form/total.svg)](https://github.com/ricky-sharma/quotation-form/releases)
 
 A modern web application for generating professional quotation forms using **React**, **Vite**, and **Tailwind CSS**. Fast, responsive, and linted for clean development.
 
