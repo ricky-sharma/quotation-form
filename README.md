@@ -2,7 +2,7 @@
 
 # Quotation Form
 
-A React-based web application for generating project quotations. Built with Vite for fast development and optimized build processes.
+A modern, responsive web application for generating professional quotations. Built with React and Vite, this application offers a seamless user experience for creating and managing quotes.
 
 ---
 
@@ -11,6 +11,8 @@ A React-based web application for generating project quotations. Built with Vite
 * **Instant Development**: Utilizes Vite for rapid hot module replacement (HMR) and efficient bundling.
 * **React Integration**: Seamless setup for React development with modern tooling.
 * **ESLint Configuration**: Pre-configured ESLint setup to maintain code quality and consistency.
+* **Modern UI**: Provides a clean and intuitive interface for users.
+* **Responsive Design**: Ensures the application is usable on various devices.
 
 ---
 
@@ -24,43 +26,52 @@ A React-based web application for generating project quotations. Built with Vite
 
 ## 📦 Installation
 
-1. Clone the repository:
+### Prerequisites
+
+* Node.js
+* npm or yarn
+
+### Steps
+
+1. **Clone the repository**:
 
    ```bash
    git clone https://github.com/ricky-sharma/quotation-form.git
    ```
 
+   This command clones the repository to your local machine.
 
-
-2. Navigate into the project directory:
+2. **Navigate into the project directory**:
 
    ```bash
    cd quotation-form
    ```
 
+   Change into the project directory to prepare for installation.
 
-
-3. Install dependencies:
+3. **Install dependencies**:
 
    ```bash
    npm install
    ```
 
-
+   This command installs all the necessary dependencies for the project.
 
 ---
 
 ## ▶️ Usage
 
-Start the development server:
+1. **Start the development server**:
 
-```bash
-npm run dev
-```
+   ```bash
+   npm run dev
+   ```
 
+   This command starts the development server.
 
+2. **Open the application**:
 
-Open your browser and go to `http://localhost:3000` to view the application.
+   Navigate to `http://localhost:3000` in your web browser to view the application.
 
 ---
 
@@ -72,7 +83,7 @@ To run ESLint and check for code quality issues:
 npm run lint
 ```
 
-
+This command runs ESLint to identify and fix problems in your JavaScript code.
 
 ---
 
@@ -81,9 +92,6 @@ npm run lint
 This project is licensed under the BSD-3-Clause License.
 
 ---
-
-Feel free to customize this template further to suit your project's specific details and requirements.
-
 
 
 # React + Vite
