@@ -31,8 +31,7 @@ export function QuotationEmpty() {
 export function QuotationDocument(props) {
     const { quotationData } = props;
     return (
-        <Document PageMode='fullScreen'
-            title={`Quotation-${quotationData?.clientDetail?.name}-${quotationData?.quotationNo}`}>
+        <Document PageMode='fullScreen' title={quotationData.pdfFileName}>
             <Page size="A4" style={QuotationStyles.page}>
                 <QuotationTitle {...props} />
                 <QuotationOrgAddress {...props} />

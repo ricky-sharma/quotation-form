@@ -1,5 +1,4 @@
 import { Text, View } from '@react-pdf/renderer';
-import { GetCurrentDate } from '../../../common/Common';
 import { QuotationStyles } from './QuotationStyles';
 
 function QuotationUserAddress(props) {
@@ -23,7 +22,7 @@ function QuotationUserAddress(props) {
                     </Text>
                 </View>
                 <Text style={QuotationStyles.clientDetailTitle}>
-                    {`Date: ${GetCurrentDate('-')}`}
+                    {`Date: ${quotationData?.currentDate}`}
                 </Text>
             </View>
         </View>

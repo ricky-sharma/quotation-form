@@ -1,6 +1,7 @@
 import { StyleSheet } from '@react-pdf/renderer';
 
 export const QuotationStyles = StyleSheet.create({
+
     page: { fontSize: 11, paddingTop: 20, paddingLeft: 20, paddingRight: 20, margin: 0, lineHeight: 1.5, flexDirection: 'column' },
 
     spaceBetween: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', color: "#3E3E3E" },

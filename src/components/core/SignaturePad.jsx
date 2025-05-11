@@ -6,10 +6,14 @@ import IsNull from '../common/Common';
 import './../css/SignaturePad.css';
 
 function SignaturePad(props) {
-    const { sigRef, customClass, labelClass, labelText, penColor, clearOnResize, className, onEnd } = props;
+    const { sigRef, customClass, labelClass, labelText,
+        penColor, clearOnResize, className, onEnd, onClearClick } = props;
 
     const handleClear = () => {
         sigRef?.current?.clear()
+        if (onClearClick !== undefined && onClearClick !== null) {
+            onClearClick();
+        }
     }
     return (
         <div className={!IsNull(customClass) ? customClass : "customInput"}>

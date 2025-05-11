@@ -1,14 +1,15 @@
+import { BlobProvider } from '@react-pdf/renderer';
+import { saveAs } from "file-saver";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { InstallationTypeOptions, OrganizationName, SalesRepresentativeOptions, SystemSelectionOptions } from "../../Constants";
 import { setQuotationData } from "../../redux/reducers/quotationSlice";
+import { GetCurrentDate } from "../common/Common";
 import Input from "../core/Input";
+import { QuotationDocument } from "../core/templates/pdf/Quotation";
 import { Item1 } from './../../Constants';
 import SignaturePad from './../core/SignaturePad';
-import { saveAs } from "file-saver";
-import { BlobProvider } from '@react-pdf/renderer';
-import { QuotationDocument, QuotationEmpty } from "../core/templates/pdf/Quotation";
 
 function QuotationForm() {
     const quotationDataRx = useSelector(state => state.quotationData);
@@ -25,6 +26,8 @@ function QuotationForm() {
     const [quotationNo] = useState(quotationDataRx?.quotationNo ?? `${Date.now().toString().substring(0, 10)}-${Math.floor(Math.random() * 100)}`);
     const [clientSign, setClientSign] = useState(quotationDataRx?.clientSign ?? '')
     const [salesRepSign, setSalesRepSign] = useState(quotationDataRx?.salesRepSign ?? '')
+    const [currentDate] = useState(GetCurrentDate('-') ?? '')
+    const [pdfFileName] = useState(quotationDataRx?.pdfFileName ?? `Quotation - ${nameClient} - ${quotationNo}`)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const clientSignRef = useRef(null);
@@ -50,8 +53,8 @@ function QuotationForm() {
         //console.log(formRef?.current?.submit(true))
         console.log(url)
         //if (formRef?.current?.submit(true)) {
-            await saveAs(blob, `Quotation.pdf`);
-            window.location.href = `mailto:?subject=${encodeURIComponent(`Quotation`)}
+        await saveAs(blob, `Quotation.pdf`);
+        window.location.href = `mailto:?subject=${encodeURIComponent(`Quotation`)}
         &body=${encodeURIComponent(`Kindly find attached quotation`)}`;
         //}
     }
@@ -91,7 +94,9 @@ function QuotationForm() {
             { ...Item1, qty: quantity }
         ],
         "clientSign": clientSign,
-        "salesRepSign": salesRepSign
+        "salesRepSign": salesRepSign,
+        "currentDate": currentDate,
+        "pdfFileName": pdfFileName
     }
 
     const handleCancel = (e) => {
@@ -109,6 +114,8 @@ function QuotationForm() {
         setSalesRepSign('')
         clientSignRef?.current?.clear()
         salesRepSignRef?.current?.clear()
+        clientSignEmpty = true;
+        salesRepSignEmpty = true;
     }
 
     return (
@@ -240,6 +247,10 @@ function QuotationForm() {
                                     labelText="Sales Representative Sign"
                                     labelClass="flex text-left"
                                     customClass="!w-49/50"
+                                    onClearClick={() => {
+                                        salesRepSignEmpty = true;
+                                        setSalesRepSign('');
+                                    }}
                                     className="bg-gray-100 text-black-700 w-full rounded" />
                             </div>
                             <div className="mt-8 text-center flex flex-wrap justify-center">
@@ -249,6 +260,10 @@ function QuotationForm() {
                                     labelText="Client Sign"
                                     labelClass="flex text-left"
                                     customClass="!w-49/50"
+                                    onClearClick={() => {
+                                        clientSignEmpty = true;
+                                        setClientSign('');
+                                    }}
                                     className="bg-gray-100 text-black-700 w-full rounded" />
                             </div>
                         </div>
