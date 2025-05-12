@@ -35,6 +35,7 @@ function QuotationForm() {
     const formRef = useRef(null);
     let clientSignEmpty = true;
     let salesRepSignEmpty = true;
+    let quotationData = {};
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -60,6 +61,34 @@ function QuotationForm() {
     }
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        quotationData = {
+            "quotationId": quotationId,
+            "quotationNo": quotationNo,
+            "clientDetail": {
+                "name": nameClient,
+                "phone": phoneClient,
+                "emailAddress": emailAddressClient,
+                "address": addressClient,
+            },
+            "serviceDetail": {
+                "salesRep": salesRep,
+                "systemSelection": systemSelection,
+                "installationType": installationType,
+                "siteNotes": siteNotes
+            },
+            "items": [
+                { ...Item1, qty: quantity }
+            ],
+            "clientSign": clientSign,
+            "salesRepSign": salesRepSign,
+            "currentDate": currentDate,
+            "pdfFileName": pdfFileName
+        }
+    }, [quotationId, quotationNo, nameClient, phoneClient, emailAddressClient, addressClient, salesRep,
+        systemSelection, installationType, siteNotes, quantity, clientSign, salesRepSign, currentDate, pdfFileName])
+
+    useEffect(() => {
         if (clientSignEmpty === true) {
             // eslint-disable-next-line react-hooks/exhaustive-deps
             clientSignEmpty = false;
@@ -75,29 +104,7 @@ function QuotationForm() {
         }
     }, [salesRepSign])
 
-    const quotationData = {
-        "quotationId": quotationId,
-        "quotationNo": quotationNo,
-        "clientDetail": {
-            "name": nameClient,
-            "phone": phoneClient,
-            "emailAddress": emailAddressClient,
-            "address": addressClient,
-        },
-        "serviceDetail": {
-            "salesRep": salesRep,
-            "systemSelection": systemSelection,
-            "installationType": installationType,
-            "siteNotes": siteNotes
-        },
-        "items": [
-            { ...Item1, qty: quantity }
-        ],
-        "clientSign": clientSign,
-        "salesRepSign": salesRepSign,
-        "currentDate": currentDate,
-        "pdfFileName": pdfFileName
-    }
+    
 
     const handleCancel = (e) => {
         e.preventDefault()

@@ -16,7 +16,7 @@ function QuotationFooter(props) {
                 </View>
             </View>
             <View style={QuotationStyles.titleContainer}>
-                <View style={QuotationStyles.spaceBetween}>
+                <View style={QuotationStyles.footerSpaceBetween}>
                     <View style={{ maxWidth: 200, marginTop: 20 }}>
                         <Text style={QuotationStyles.serviceDetailTitle}>
                             Sales Representative Sign:

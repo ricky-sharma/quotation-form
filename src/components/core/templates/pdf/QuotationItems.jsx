@@ -21,8 +21,6 @@ function QuotationItems(props) {
                     <Text>Amount</Text>
                 </View>
             </View>
-            <TableBody />
-            <TableTotal />
             {quotationData?.items?.map !== undefined ?
                 quotationData?.items?.map((item) => (
                     <Fragment key={Math?.random()}>

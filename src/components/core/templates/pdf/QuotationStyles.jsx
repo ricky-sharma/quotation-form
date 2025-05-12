@@ -8,6 +8,8 @@ export const QuotationStyles = StyleSheet.create({
 
     serviceDetailSpaceBetween: { flex: 1, flexDirection: 'row', alignItems: 'center', color: "#3E3E3E" },
 
+    footerSpaceBetween: { flex: 1, flexDirection: 'row', alignItems: 'top', justifyContent: 'space-between', color: "#3E3E3E" },
+
     titleContainer: { flexDirection: 'row', marginTop: 24 },
 
     serviceDetailContainer: { flexDirection: 'row', marginTop: 1, marginBottom: 1 },
