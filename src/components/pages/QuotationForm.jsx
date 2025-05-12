@@ -85,8 +85,7 @@ function QuotationForm() {
             "currentDate": currentDate,
             "pdfFileName": pdfFileName
         }
-    }, [quotationId, quotationNo, nameClient, phoneClient, emailAddressClient, addressClient, salesRep,
-        systemSelection, installationType, siteNotes, quantity, clientSign, salesRepSign, currentDate, pdfFileName])
+    })
 
     useEffect(() => {
         if (clientSignEmpty === true) {
