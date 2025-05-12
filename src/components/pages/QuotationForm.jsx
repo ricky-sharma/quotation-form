@@ -27,7 +27,7 @@ function QuotationForm() {
     const [clientSign, setClientSign] = useState(quotationDataRx?.clientSign ?? '')
     const [salesRepSign, setSalesRepSign] = useState(quotationDataRx?.salesRepSign ?? '')
     const [currentDate] = useState(GetCurrentDate('-') ?? '')
-    const [pdfFileName] = useState(quotationDataRx?.pdfFileName ?? `Quotation - ${nameClient} - ${quotationNo}`)
+    const [pdfFileName, setPdfFileName] = useState(quotationDataRx?.pdfFileName ?? '')
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const clientSignRef = useRef(null);
@@ -49,12 +49,15 @@ function QuotationForm() {
         }
     }
 
-    const handleShare = async (url, blob) => async (e) => {
+    const handleShare = async (e, url, blob) => {
         e.preventDefault()
+        dispatch(setQuotationData(quotationData));
+        console.log(quotationData)
         //console.log(formRef?.current?.submit(true))
         console.log(url)
+        console.log(blob)
         //if (formRef?.current?.submit(true)) {
-        await saveAs(blob, `Quotation.pdf`);
+        await saveAs(blob, pdfFileName);
         window.location.href = `mailto:?subject=${encodeURIComponent(`Quotation`)}
         &body=${encodeURIComponent(`Kindly find attached quotation`)}`;
         //}
@@ -86,6 +89,11 @@ function QuotationForm() {
             "pdfFileName": pdfFileName
         }
     })
+
+    useEffect(() => {
+        setPdfFileName(`Quotation - ${nameClient} - ${quotationNo}`)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [nameClient])
 
     useEffect(() => {
         if (clientSignEmpty === true) {
@@ -289,7 +297,7 @@ function QuotationForm() {
                                 <button
                                     name="Send Email"
                                     id="SendEmail"
-                                    onClick={() => handleShare(url, blob)}
+                                    onClick={(e) => handleShare(e, url, blob)}
                                     className="py-1 my-1 px-4 !bg-gray-900 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 buttonCss buttonfont">
                                     Send Email
                                 </button>
