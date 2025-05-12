@@ -16,11 +16,13 @@ A modern web application for generating professional quotation forms using **Rea
 ## 📸 Preview
 
 ### Form
-![image](https://github.com/user-attachments/assets/283a3dec-5eb9-42e8-a626-c7c85a8e2acd)
+![image](https://github.com/user-attachments/assets/8d7cd284-7211-4a04-bfce-160f1cd6daf0)
+
 
 
 ### Generated PDF
-![image](https://github.com/user-attachments/assets/98dea840-49bc-4288-8b77-06e80ab0d06f)
+![image](https://github.com/user-attachments/assets/de6cfc53-333b-4eaf-bdb3-bdb02f391369)
+
 
 
 ---
