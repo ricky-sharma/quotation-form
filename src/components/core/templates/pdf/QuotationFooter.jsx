@@ -19,7 +19,7 @@ function QuotationFooter(props) {
                 <View style={QuotationStyles.spaceBetween}>
                     <View style={{ maxWidth: 200, marginTop: 20 }}>
                         <Text style={QuotationStyles.serviceDetailTitle}>
-                            'Sales Representative Sign:'
+                            Sales Representative Sign:
                         </Text>
                         {quotationData?.salesRepSign !== null && quotationData?.salesRepSign !== undefined
                             && quotationData?.salesRepSign !== "" ?
@@ -28,7 +28,7 @@ function QuotationFooter(props) {
                     </View>
                     <View style={{ maxWidth: 200, marginTop: 20 }}>
                         <Text style={QuotationStyles.serviceDetailTitle}>
-                            'Client Sign:'
+                            Client Sign:
                         </Text>
                         {quotationData?.clientSign !== null && quotationData?.clientSign !== undefined
                             && quotationData?.clientSign !== "" ?
