@@ -78,7 +78,6 @@ function QuotationForm() {
         quantity
     ]);
 
-
     useEffect(() => {
         if (quotationDataRx === '') {
             dispatch(setQuotationData(quotationData));
@@ -91,19 +90,19 @@ function QuotationForm() {
         e?.currentTarget?.blur()
         buttonTypeRef.current = e?.nativeEvent?.submitter?.getAttribute('id');
         dispatch(setQuotationData(quotationData));
-        if (buttonTypeRef?.current === "GeneratePDF") {
-            //GeneratePDF
+        if (buttonTypeRef?.current === "View") {
+            //View
             navigate('/QuotationViewer');
         }
-        else if (buttonTypeRef?.current === "SendEmail") {
-            //SendEmail
+        else if (buttonTypeRef?.current === "Share") {
+            //Share
             const newDoc = <QuotationDocument key={'quotationDocument1'} quotationData={quotationData} />;
             updateInstance(newDoc);
         }
     }
 
     useEffect(() => {
-        if (instance?.loading === false && instance?.blob && buttonTypeRef.current === 'SendEmail') {
+        if (instance?.loading === false && instance?.blob && buttonTypeRef.current === 'Share') {
             // PDF generation is complete
             handleShare();
         }
@@ -113,7 +112,7 @@ function QuotationForm() {
 
     const handleShare = async () => {
         if (instance?.blob) {
-            await saveAs(instance.blob, pdfFileName);
+            await saveAs(instance?.blob, pdfFileName);
             window.location.href = `mailto:?to=${encodeURIComponent(
                 `${emailAddressClient}`
             )}&subject=${encodeURIComponent(`${pdfFileName}`)}&body=${encodeURIComponent(
@@ -317,22 +316,20 @@ function QuotationForm() {
                     </div>
                 </section>
                 <section className="px-8">
-                    <div className="grid lg:grid-cols-3 my-10 gap-3 flex justify-right float-right">
+                    <div className="grid-cols-3 my-10 gap-3 flex justify-right float-right">
                         <button
-                            data-type="GeneratePDF"
-                            name="Generate PDF"
-                            id="GeneratePDF"
+                            name="View"
+                            id="View"
                             type="submit"
                             className="py-1 my-1 px-4 !bg-gray-900 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 buttonCss buttonfont">
-                            Generate PDF
+                            View
                         </button>
                         <button
-                            data-type="SendEmail"
-                            name="Send Email"
-                            id="SendEmail"
+                            name="Share"
+                            id="Share"
                             type="submit"
                             className="py-1 my-1 px-4 !bg-gray-900 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 buttonCss buttonfont">
-                            Send Email
+                            Share
                         </button>
                         <button
                             data-type="Cancel"
