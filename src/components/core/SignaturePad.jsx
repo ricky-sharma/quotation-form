@@ -18,13 +18,11 @@ function SignaturePad(props) {
     } = props;
 
     const handleClear = () => {
-        console.log("Clearing canvas...");
         // Clear the signature canvas
         signRef?.current?.clear();
 
         // Trigger the onClearClick callback if provided
         if (onClearClick) {
-            console.log("Triggering onClearClick callback...");
             onClearClick();
         }
     };

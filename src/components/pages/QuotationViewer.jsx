@@ -15,8 +15,6 @@ function QuotationViewer() {
     const handleShare = async (e, blob) => {
         e?.preventDefault()
         e?.currentTarget?.blur()
-        console.log(quotationDocument)
-        console.log(blob)
         if (blob) {
             await saveAs(blob, quotationData?.pdfFileName);
             window.location.href = `mailto:?to=${encodeURIComponent(
