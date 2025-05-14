@@ -1,15 +1,19 @@
 import { Text, View } from '@react-pdf/renderer';
-import { Fragment } from 'react';
 import { QuotationStyles } from "./QuotationStyles";
 
-function QuotationItems(props) {
-    const { quotationData } = props;
+function QuotationItems({ quotationData }) {
+    const items = Array.isArray(quotationData?.items) ? quotationData.items : [];
+    const isValidQty = (qty) => typeof qty === 'number' && qty > 0;
+    const total = items.reduce((sum, item) =>
+        isValidQty(item?.qty) ? sum + (item.price * item.qty) : sum, 0
+    );
 
     return (
-        <>
+        <View>
+            {/* Table header */}
             <View style={{ width: '100%', flexDirection: 'row', marginTop: 40 }}>
                 <View style={[QuotationStyles.theader, QuotationStyles.theader2]}>
-                    <Text >Items</Text>
+                    <Text>Items</Text>
                 </View>
                 <View style={QuotationStyles.theader}>
                     <Text>Price</Text>
@@ -21,46 +25,38 @@ function QuotationItems(props) {
                     <Text>Amount</Text>
                 </View>
             </View>
-            {quotationData?.items?.map !== undefined ?
-                quotationData?.items?.map((item) => (
-                    <Fragment key={Math?.random()}>
-                        <View style={{ width: '100%', flexDirection: 'row' }}>
-                            <View style={[QuotationStyles.tbody, QuotationStyles.tbody2]}>
-                                <Text >{item?.desc}</Text>
-                            </View>
-                            <View style={QuotationStyles.tbody}>
-                                <Text>{item?.price} </Text>
-                            </View>
-                            <View style={QuotationStyles.tbody}>
-                                <Text>{item?.qty}</Text>
-                            </View>
-                            <View style={QuotationStyles.tbody}>
-                                <Text>{item?.qty ? (item?.price * item?.qty)?.toFixed(2) : ''}</Text>
-                            </View>
+
+            {/* Table rows */}
+            {items.map((item, index) =>
+                isValidQty(item?.qty) ? (
+                    <View key={index} style={{ width: '100%', flexDirection: 'row' }}>
+                        <View style={[QuotationStyles.tbody, QuotationStyles.tbody2]}>
+                            <Text>{item?.description ?? " "}</Text>
                         </View>
-                    </Fragment>
-                )) : ''}
+                        <View style={QuotationStyles.tbody}>
+                            <Text>{item?.price ?? " "}</Text>
+                        </View>
+                        <View style={QuotationStyles.tbody}>
+                            <Text>{item?.qty}</Text>
+                        </View>
+                        <View style={QuotationStyles.tbody}>
+                            <Text>{(item.price * item.qty).toFixed(2)}</Text>
+                        </View>
+                    </View>
+                ) : null
+            )}
+
+            {/* Total row */}
             <View style={{ width: '100%', flexDirection: 'row' }}>
-                <View style={QuotationStyles.total}>
-                    <Text></Text>
-                </View>
-                <View style={QuotationStyles.total}>
-                    <Text> </Text>
-                </View>
+                <View style={QuotationStyles.total}><Text></Text></View>
+                <View style={QuotationStyles.total}><Text></Text></View>
+                <View style={QuotationStyles.tbody}><Text>Total</Text></View>
                 <View style={QuotationStyles.tbody}>
-                    <Text>Total</Text>
-                </View>
-                <View style={QuotationStyles.tbody}>
-                    <Text>
-                        {
-                            quotationData?.items?.reduce !== undefined ?
-                                quotationData?.items?.reduce((sum, item) => sum + (item?.price * item?.qty), 0) : null
-                        }
-                    </Text>
+                    <Text>{total.toFixed(2)}</Text>
                 </View>
             </View>
-        </>
-    )
+        </View>
+    );
 }
 
 export default QuotationItems;

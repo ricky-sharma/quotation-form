@@ -3,30 +3,40 @@ import { QuotationStyles } from './QuotationStyles';
 
 function QuotationUserAddress(props) {
     const { quotationData } = props;
+
+    // Handle case where quotationData might be undefined or null
+    if (!quotationData) {
+        return (
+            <View style={QuotationStyles.titleContainer}>
+                <Text style={QuotationStyles.clientDetail}>Quotation data is missing.</Text>
+            </View>
+        );
+    }
+    const { clientDetail, currentDate } = quotationData;
     return (
         <View style={QuotationStyles.titleContainer}>
             <View style={QuotationStyles.spaceBetween}>
                 <View style={{ maxWidth: 200 }}>
                     <Text style={QuotationStyles.clientDetailTitle}>Bill to </Text>
                     <Text style={QuotationStyles.clientDetail}>
-                        {quotationData?.clientDetail?.name ?? "[Client Name]"}
+                        {clientDetail?.name ?? " "}
                     </Text>
                     <Text style={QuotationStyles.clientDetail}>
-                        {quotationData?.clientDetail?.address ?? "[Client Address]"}
+                        {clientDetail?.address ?? " "}
                     </Text>
                     <Text style={QuotationStyles.clientDetail}>
-                        {quotationData?.clientDetail?.phone ?? ""}
+                        {clientDetail?.phone ?? " "}
                     </Text>
                     <Text style={QuotationStyles.clientDetail}>
-                        {quotationData?.clientDetail?.emailAddress ?? ""}
+                        {clientDetail?.emailAddress ?? " "}
                     </Text>
                 </View>
                 <Text style={QuotationStyles.clientDetailTitle}>
-                    {`Date: ${quotationData?.currentDate}`}
+                    {`Date: ${currentDate ?? " "}`}
                 </Text>
             </View>
         </View>
     );
 }
 
-export default QuotationUserAddress
+export default QuotationUserAddress;

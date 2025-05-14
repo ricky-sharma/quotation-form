@@ -1,6 +1,6 @@
-import { BlobProvider } from '@react-pdf/renderer';
+import { usePDF } from '@react-pdf/renderer';
 import { saveAs } from "file-saver";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { InstallationTypeOptions, OrganizationName, SalesRepresentativeOptions, SystemSelectionOptions } from "../../Constants";
@@ -20,101 +20,133 @@ function QuotationForm() {
     const [salesRep, setSalesRep] = useState(quotationDataRx?.serviceDetail?.salesRep ?? '')
     const [systemSelection, setSystemSelection] = useState(quotationDataRx?.serviceDetail?.systemSelection ?? '')
     const [installationType, setInstallationType] = useState(quotationDataRx?.serviceDetail?.installationType ?? '')
-    const [quantity, setQuantity] = useState(quotationDataRx?.items?.length > 0 ? quotationDataRx?.items[0]?.qty : '');
+    const [quantity, setQuantity] = useState(quotationDataRx?.items?.length > 0 ? parseInt(quotationDataRx?.items[0]?.qty) : 0);
     const [siteNotes, setSiteNotes] = useState(quotationDataRx?.serviceDetail?.siteNotes ?? '')
-    const [quotationId] = useState(quotationDataRx?.quotationId ?? `${Date.now()}${Math.floor(Math.random() * 100)}`);
-    const [quotationNo] = useState(quotationDataRx?.quotationNo ?? `${Date.now().toString().substring(0, 10)}-${Math.floor(Math.random() * 100)}`);
+    const [quotationId] = useState(quotationDataRx?.quotationId ??
+        `${Date.now()}${Math.floor(Math.random() * 100)}`);
+    const [quotationNo] = useState(quotationDataRx?.quotationNo ??
+        `${Date.now().toString().substring(0, 10)}-${Math.floor(Math.random() * 100)}`);
     const [clientSign, setClientSign] = useState(quotationDataRx?.clientSign ?? '')
     const [salesRepSign, setSalesRepSign] = useState(quotationDataRx?.salesRepSign ?? '')
     const [currentDate] = useState(GetCurrentDate('-') ?? '')
     const [pdfFileName, setPdfFileName] = useState(quotationDataRx?.pdfFileName ?? '')
+    const [instance, updateInstance] = usePDF({ document: null });
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const clientSignRef = useRef(null);
     const salesRepSignRef = useRef(null);
     const formRef = useRef(null);
-    let clientSignEmpty = true;
-    let salesRepSignEmpty = true;
-    let quotationData = {};
+    const buttonTypeRef = useRef(null);
+    const clientSignEmptyRef = useRef(true);
+    const salesRepSignEmptyRef = useRef(true);
+
+    const quotationData = useMemo(() => ({
+        quotationId,
+        quotationNo,
+        clientSign,
+        salesRepSign,
+        currentDate,
+        pdfFileName,
+        clientDetail: {
+            name: nameClient,
+            phone: phoneClient,
+            emailAddress: emailAddressClient,
+            address: addressClient,
+        },
+        serviceDetail: {
+            salesRep,
+            systemSelection,
+            installationType,
+            siteNotes
+        },
+        items: [{ ...Item1, qty: Number(quantity) || 0 }],
+    }), [
+        quotationId,
+        quotationNo,
+        clientSign,
+        salesRepSign,
+        currentDate,
+        pdfFileName,
+        nameClient,
+        phoneClient,
+        emailAddressClient,
+        addressClient,
+        salesRep,
+        systemSelection,
+        installationType,
+        siteNotes,
+        quantity
+    ]);
+
+
+    useEffect(() => {
+        if (quotationDataRx === '') {
+            dispatch(setQuotationData(quotationData));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e?.preventDefault()
+        e?.currentTarget?.blur()
+        buttonTypeRef.current = e?.nativeEvent?.submitter?.getAttribute('id');
         dispatch(setQuotationData(quotationData));
-        if (e?.nativeEvent?.submitter?.getAttribute('id') === "GeneratePDF") {
+        if (buttonTypeRef?.current === "GeneratePDF") {
             //GeneratePDF
             navigate('/QuotationViewer');
         }
-        else if (e?.nativeEvent?.submitter?.getAttribute('id') === "SendEmail") {
+        else if (buttonTypeRef?.current === "SendEmail") {
             //SendEmail
+            const newDoc = <QuotationDocument key={'quotationDocument1'} quotationData={quotationData} />;
+            updateInstance(newDoc);
         }
-    }
-
-    const handleShare = async (e, url, blob) => {
-        e.preventDefault()
-        dispatch(setQuotationData(quotationData));
-        console.log(quotationData)
-        //console.log(formRef?.current?.submit(true))
-        console.log(url)
-        console.log(blob)
-        //if (formRef?.current?.submit(true)) {
-        await saveAs(blob, pdfFileName);
-        window.location.href = `mailto:?subject=${encodeURIComponent(`Quotation`)}
-        &body=${encodeURIComponent(`Kindly find attached quotation`)}`;
-        //}
     }
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        quotationData = {
-            "quotationId": quotationId,
-            "quotationNo": quotationNo,
-            "clientDetail": {
-                "name": nameClient,
-                "phone": phoneClient,
-                "emailAddress": emailAddressClient,
-                "address": addressClient,
-            },
-            "serviceDetail": {
-                "salesRep": salesRep,
-                "systemSelection": systemSelection,
-                "installationType": installationType,
-                "siteNotes": siteNotes
-            },
-            "items": [
-                { ...Item1, qty: quantity }
-            ],
-            "clientSign": clientSign,
-            "salesRepSign": salesRepSign,
-            "currentDate": currentDate,
-            "pdfFileName": pdfFileName
+        if (instance?.loading === false && instance?.blob && buttonTypeRef.current === 'SendEmail') {
+            // PDF generation is complete
+            handleShare();
         }
-    })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [instance?.loading]);
+
+
+    const handleShare = async () => {
+        if (instance?.blob) {
+            await saveAs(instance.blob, pdfFileName);
+            window.location.href = `mailto:?to=${encodeURIComponent(
+                `${emailAddressClient}`
+            )}&subject=${encodeURIComponent(`${pdfFileName}`)}&body=${encodeURIComponent(
+                `Kindly find attached quotation.`
+            )}`;
+        }
+    };
 
     useEffect(() => {
         setPdfFileName(`Quotation - ${nameClient} - ${quotationNo}`)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [nameClient])
 
     useEffect(() => {
-        if (clientSignEmpty === true) {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            clientSignEmpty = false;
-            clientSignRef?.current?.fromDataURL(clientSign, {})
+        if (clientSignEmptyRef.current === true) {
+            clientSignRef?.current?.fromDataURL(clientSign)
+            clientSignEmptyRef.current = false
         }
-    }, [clientSign])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     useEffect(() => {
-        if (salesRepSignEmpty === true) {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            salesRepSignEmpty = false;
-            salesRepSignRef?.current?.fromDataURL(salesRepSign, {})
+        if (salesRepSignEmptyRef.current === true) {
+            salesRepSignRef?.current?.fromDataURL(salesRepSign)
+            salesRepSignEmptyRef.current = false
         }
-    }, [salesRepSign])
-
-    
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleCancel = (e) => {
-        e.preventDefault()
+        e?.preventDefault()
+        e?.currentTarget?.blur()
+        buttonTypeRef.current = e?.target?.getAttribute('data-type');
         setNameClient('')
         setAddressClient('')
         setPhoneClient('')
@@ -128,8 +160,7 @@ function QuotationForm() {
         setSalesRepSign('')
         clientSignRef?.current?.clear()
         salesRepSignRef?.current?.clear()
-        clientSignEmpty = true;
-        salesRepSignEmpty = true;
+        dispatch(setQuotationData(''));
     }
 
     return (
@@ -256,26 +287,28 @@ function QuotationForm() {
                         <div className="grid lg:grid-cols-2 gap-3">
                             <div className="mt-8 text-center flex flex-wrap justify-center">
                                 <SignaturePad
-                                    sigRef={salesRepSignRef}
-                                    onEnd={() => { setSalesRepSign(salesRepSignRef?.current?.toDataURL('image/png')) }}
+                                    signRef={salesRepSignRef}
+                                    onEnd={() => {
+                                        setSalesRepSign(salesRepSignRef?.current?.toDataURL('image/png'))
+                                    }}
                                     labelText="Sales Representative Sign"
                                     labelClass="flex text-left"
                                     customClass="!w-49/50"
                                     onClearClick={() => {
-                                        salesRepSignEmpty = true;
                                         setSalesRepSign('');
                                     }}
                                     className="bg-gray-100 text-black-700 w-full rounded" />
                             </div>
                             <div className="mt-8 text-center flex flex-wrap justify-center">
                                 <SignaturePad
-                                    sigRef={clientSignRef}
-                                    onEnd={() => { setClientSign(clientSignRef?.current?.toDataURL('image/png')) }}
+                                    signRef={clientSignRef}
+                                    onEnd={() => {
+                                        setClientSign(clientSignRef?.current?.toDataURL('image/png'))
+                                    }}
                                     labelText="Client Sign"
                                     labelClass="flex text-left"
                                     customClass="!w-49/50"
                                     onClearClick={() => {
-                                        clientSignEmpty = true;
                                         setClientSign('');
                                     }}
                                     className="bg-gray-100 text-black-700 w-full rounded" />
@@ -284,26 +317,25 @@ function QuotationForm() {
                     </div>
                 </section>
                 <section className="px-8">
-                    <div className="grid sm:grid-cols-3 my-10 gap-3 flex justify-right float-right">
+                    <div className="grid lg:grid-cols-3 my-10 gap-3 flex justify-right float-right">
                         <button
+                            data-type="GeneratePDF"
                             name="Generate PDF"
                             id="GeneratePDF"
                             type="submit"
                             className="py-1 my-1 px-4 !bg-gray-900 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 buttonCss buttonfont">
                             Generate PDF
                         </button>
-                        <BlobProvider document={<QuotationDocument quotationData={quotationData} />}>
-                            {({ url, blob }) => (
-                                <button
-                                    name="Send Email"
-                                    id="SendEmail"
-                                    onClick={(e) => handleShare(e, url, blob)}
-                                    className="py-1 my-1 px-4 !bg-gray-900 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 buttonCss buttonfont">
-                                    Send Email
-                                </button>
-                            )}
-                        </BlobProvider>
                         <button
+                            data-type="SendEmail"
+                            name="Send Email"
+                            id="SendEmail"
+                            type="submit"
+                            className="py-1 my-1 px-4 !bg-gray-900 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 buttonCss buttonfont">
+                            Send Email
+                        </button>
+                        <button
+                            data-type="Cancel"
                             onClick={handleCancel}
                             className="py-1 my-1 px-4 !bg-gray-900 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 buttonCss buttonfont">
                             Cancel

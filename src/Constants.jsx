@@ -18,7 +18,7 @@ export const InstallationTypeOptions = [
     { value: "Soffit Mount", text: "Soffit Mount" }];
 export const Item1 = {
     "id": 1,
-    "desc": "Item Description - ABCD",
+    "description": "Item Description-ABCD",
     "qty": 0,
     "price": 250
 }

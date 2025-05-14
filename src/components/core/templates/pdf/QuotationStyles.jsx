@@ -1,14 +1,13 @@
 import { StyleSheet } from '@react-pdf/renderer';
 
 export const QuotationStyles = StyleSheet.create({
-
     page: { fontSize: 11, paddingTop: 20, paddingLeft: 20, paddingRight: 20, margin: 0, lineHeight: 1.5, flexDirection: 'column' },
 
     spaceBetween: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', color: "#3E3E3E" },
 
     serviceDetailSpaceBetween: { flex: 1, flexDirection: 'row', alignItems: 'center', color: "#3E3E3E" },
 
-    footerSpaceBetween: { flex: 1, flexDirection: 'row', alignItems: 'top', justifyContent: 'space-between', color: "#3E3E3E" },
+    footerSpaceBetween: { flex: 1, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', color: "#3E3E3E" },
 
     titleContainer: { flexDirection: 'row', marginTop: 24 },
 
@@ -18,13 +17,13 @@ export const QuotationStyles = StyleSheet.create({
 
     reportTitle: { fontSize: 16, textAlign: 'center' },
 
-    orgDetailTitle: { fontSize: 11, fontWeight: '900' },
+    orgDetailTitle: { fontSize: 11, fontWeight: 'bold' },
 
-    clientDetailTitle: { fontSize: 12, fontWeight: '900' },
+    clientDetailTitle: { fontSize: 12, fontWeight: 'bold' },
 
-    serviceDetailTitle: { fontSize: 12, fontWeight: '900', paddingRight: 5 },
+    serviceDetailTitle: { fontSize: 12, fontWeight: 'bold', paddingRight: 5 },
 
-    quotation: { fontWeight: '900', fontSize: 20 },
+    quotation: { fontWeight: 'bold', fontSize: 20 },
 
     quotationNumber: { fontSize: 11, fontWeight: '400', paddingTop: 10 },
 
@@ -40,5 +39,5 @@ export const QuotationStyles = StyleSheet.create({
 
     total: { fontSize: 9, paddingTop: 4, paddingLeft: 7, flex: 1.5, borderColor: 'whitesmoke', borderBottomWidth: 1 },
 
-    tbody2: { flex: 2, borderRightWidth: 1, }
+    tbody2: { flex: 2, borderRightWidth: 1 },
 });

@@ -1,49 +1,31 @@
 import { Text, View } from '@react-pdf/renderer';
 import { QuotationStyles } from "./QuotationStyles";
 
-function QuotationServiceDetail(props) {
-    const { quotationData } = props;
+function QuotationServiceDetail({ quotationData }) {
+    const { salesRep, systemSelection, installationType } = quotationData?.serviceDetail || {};
+
+    const renderField = (label, value) => {
+        if (!value) return null;
+
+        return (
+            <View style={QuotationStyles.serviceDetailContainer}>
+                <View style={QuotationStyles.serviceDetailSpaceBetween}>
+                    <View style={{ maxWidth: 200 }}>
+                        <Text style={QuotationStyles.serviceDetailTitle}>{label}</Text>
+                    </View>
+                    <Text style={QuotationStyles.serviceDetail}>{value}</Text>
+                </View>
+            </View>
+        );
+    };
 
     return (
-        <>
-            <View style={{ flexDirection: 'row', marginTop: 30 }}>
-                <View style={QuotationStyles.serviceDetailSpaceBetween}>
-                    <View style={{ maxWidth: 200 }}>
-                        <Text style={QuotationStyles.serviceDetailTitle}>
-                            {quotationData?.serviceDetail?.salesRep ? 'Sales Representative:' : ''}
-                        </Text>
-                    </View>
-                    <Text style={QuotationStyles.serviceDetail}>
-                        {quotationData?.serviceDetail?.salesRep ?? ""}
-                    </Text>
-                </View>
-            </View>
-            <View style={QuotationStyles.serviceDetailContainer}>
-                <View style={QuotationStyles.serviceDetailSpaceBetween}>
-                    <View style={{ maxWidth: 200 }}>
-                        <Text style={QuotationStyles.serviceDetailTitle}>
-                            {quotationData?.serviceDetail?.systemSelection ? 'System Selection:' : ''}
-                        </Text>
-                    </View>
-                    <Text style={QuotationStyles.serviceDetail}>
-                        {quotationData?.serviceDetail?.systemSelection ?? ""}
-                    </Text>
-                </View>
-            </View>
-            <View style={QuotationStyles.serviceDetailContainer}>
-                <View style={QuotationStyles.serviceDetailSpaceBetween}>
-                    <View style={{ maxWidth: 200 }}>
-                        <Text style={QuotationStyles.serviceDetailTitle}>
-                            {quotationData?.serviceDetail?.installationType ? 'Installation Type:' : ''}
-                        </Text>
-                    </View>
-                    <Text style={QuotationStyles.serviceDetail}>
-                        {quotationData?.serviceDetail?.installationType ?? ""}
-                    </Text>
-                </View>
-            </View>
-        </>
-    )
+        <View style={{ marginTop: 30 }}>
+            {renderField('Sales Representative:', salesRep)}
+            {renderField('System Selection:', systemSelection)}
+            {renderField('Installation Type:', installationType)}
+        </View>
+    );
 }
 
 export default QuotationServiceDetail;

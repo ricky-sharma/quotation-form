@@ -8,10 +8,10 @@ function QuotationTitle() {
         <View style={QuotationStyles.titleContainer}>
             <View style={QuotationStyles.spaceBetween}>
                 <Image style={QuotationStyles.logo} src={logo} />
-                <Text style={QuotationStyles.reportTitle}>{OrganizationName}</Text>
+                <Text style={QuotationStyles.reportTitle}>{OrganizationName ?? " "}</Text>
             </View>
         </View>
-    )
+    );
 }
 
-export default QuotationTitle
+export default QuotationTitle;

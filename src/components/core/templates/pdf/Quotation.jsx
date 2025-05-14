@@ -11,10 +11,17 @@ import QuotationUserAddress from './QuotationUserAddress';
 function Quotation(props) {
     const { quotationData } = props;
     return (
-        <PDFViewer key={Math.random()} className="p-0 m-0 xl:h-170 h-150 w-full"
-            title={`Quotation-${quotationData?.clientDetail?.name}-${quotationData?.quotationNo}`}  >
-            <QuotationDocument {...props} />
-        </PDFViewer>
+        quotationData ? (
+            <PDFViewer
+                key={quotationData?.quotationId ?? 'viewer'}
+                className="p-0 m-0 xl:h-170 h-150 w-full"
+                title={quotationData?.pdfFileName}
+            >
+                <QuotationDocument {...props} />
+            </PDFViewer >) :
+            (
+                <QuotationEmpty />
+            )
     );
 }
 
@@ -33,12 +40,12 @@ export function QuotationDocument(props) {
     return (
         <Document PageMode='fullScreen' title={quotationData.pdfFileName}>
             <Page size="A4" style={QuotationStyles.page}>
-                <QuotationTitle {...props} />
-                <QuotationOrgAddress {...props} />
-                <QuotationUserAddress {...props} />
-                <QuotationServiceDetail {...props} />
-                <QuotationItems {...props} />
-                <QuotationFooter {...props} />
+                <QuotationTitle quotationData={quotationData} />
+                <QuotationOrgAddress quotationData={quotationData} />
+                <QuotationUserAddress quotationData={quotationData} />
+                <QuotationServiceDetail quotationData={quotationData} />
+                <QuotationItems quotationData={quotationData} />
+                <QuotationFooter quotationData={quotationData} />
             </Page>
         </Document>
     )
